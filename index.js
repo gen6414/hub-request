@@ -56,7 +56,7 @@ async function pullRequest(accessToken, owner, repo) {
 
   } catch(err) {
 
-    spinner.fail(`Failed pull request owner/${repo.name}`)
+    spinner.fail(`Failed pull request ${owner}/${repo.name}`)
 
     console.error(err)
 
@@ -64,6 +64,6 @@ async function pullRequest(accessToken, owner, repo) {
 
   }
 
-  spinner.succeed(`Completed pull request owner/${repo.name}`)
+  spinner.succeed(`Completed pull request ${owner}/${repo.name}`)
 
 }
