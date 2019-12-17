@@ -17,16 +17,20 @@ for (let repo of json.repos) {
 
 async function pullRequest(accessToken, owner, repo) {
 
-  const spinner = ora(`Processing pull request owner/${repo.name}`).start();
+  const spinner = ora(`Processing pull request ${owner}/${repo.name}`).start();
+
+  const repoUrl = `${GITHUB_API_BASE_URL}/repos/${owner}/${repo.name}`
+
+  const pullRequest = repo['pull-request']
 
   try {
 
     // プルリクエスト
-    const res = await axios.post(`${GITHUB_API_BASE_URL}/repos/${owner}/${repo.name}/pulls`, {
-      title: repo['pull-request'].title,
-      body : repo['pull-request'].body,
-      head : repo['pull-request'].head,
-      base : repo['pull-request'].base
+    const res = await axios.post(`${repoUrl}/pulls`, {
+      title: pullRequest.title,
+      body : pullRequest.body,
+      head : pullRequest.head,
+      base : pullRequest.base
     },
     {
       headers: {
@@ -35,8 +39,8 @@ async function pullRequest(accessToken, owner, repo) {
     })
 
     // reviewersの追加
-    await axios.post(`${GITHUB_API_BASE_URL}/repos/${owner}/${repo.name}/pulls/${res.data.number}/requested_reviewers`, {
-      reviewers: repo['pull-request'].reviewers,
+    await axios.post(`${repoUrl}/pulls/${res.data.number}/requested_reviewers`, {
+      reviewers: pullRequest.reviewers,
     },
     {
       headers: {
@@ -45,8 +49,8 @@ async function pullRequest(accessToken, owner, repo) {
     })
 
     // assigneesの追加
-    await axios.post(`${GITHUB_API_BASE_URL}/repos/${owner}/${repo.name}/issues/${res.data.number}/assignees`, {
-      assignees: repo['pull-request'].assignees,
+    await axios.post(`${repoUrl}/issues/${res.data.number}/assignees`, {
+      assignees: pullRequest.assignees,
     },
     {
       headers: {
