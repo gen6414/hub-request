@@ -9,11 +9,11 @@ const GITHUB_API_BASE_URL = 'https://api.github.com'
 // 引数のパスからJSONファイルを読み込む
 const json = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 
-for (let repo of json.repos) {
-
-  pullRequest(json['access-token'], json['owner'], repo)
-
-}
+(async () => {
+  for (let repo of json.repos) {
+    await pullRequest(json['access-token'], json['owner'], repo)
+  }
+})()
 
 async function pullRequest(accessToken, owner, repo) {
 
@@ -61,8 +61,6 @@ async function pullRequest(accessToken, owner, repo) {
   } catch(err) {
 
     spinner.fail(`Failed pull request ${owner}/${repo.name}`)
-
-    console.error(err)
 
     return
 

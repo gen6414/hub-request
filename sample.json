@@ -1,0 +1,17 @@
+{
+  "access-token": "xxxxxxxxxxx",
+  "owner": "xxxx",
+  "repos": [
+    {
+      "name": "xxxx",
+      "pull-request": {
+        "title": "test",
+        "body": "hogehoge",
+        "head": "develop",
+        "base": "master",
+        "reviewers": ["taro"],
+        "assignees": ["taro"]
+      }
+    }
+  ]
+}
